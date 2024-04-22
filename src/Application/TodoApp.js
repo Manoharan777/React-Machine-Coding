@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 const TodoApp = () => {
   const initialState = {
@@ -10,6 +10,8 @@ const TodoApp = () => {
   const [tasks, setTasks] = useState([initialState]);
   const [editMode, setEditMode] = useState(false);
   const [editTask, setEditTask] = useState(null);
+  const itemDrag = useRef(null);
+  const itemDragover = useRef(null);
 
   const handleAddTask = () => {
     if (input.trim() !== "") {
@@ -46,6 +48,19 @@ const TodoApp = () => {
     }
   };
 
+  function handlecleartask(){
+    setTasks([]);
+  }
+
+  function handleSort(){
+    const itemClone = [...tasks];
+  [itemClone[itemDrag.current], itemClone[itemDragover.current]] = [
+    itemClone[itemDragover.current],
+    itemClone[itemDrag.current],
+  ];
+    setTasks(itemClone);
+  }
+
   return (
     <div>
       <h1 className="bg-black text-white p-2 m-2 rounded font-bold text-2xl text-center">
@@ -76,15 +91,32 @@ const TodoApp = () => {
               ADD
             </button>
           )}
+          <button
+            onClick={handlecleartask}
+            className="bg-black text-white p-2 mx-2 rounded"
+          >
+            Clear Task
+          </button>
         </form>
       </div>
 
-      <div className="mt-5 text-center">
-        <h2 className="text-lg font-bold">Tasks:</h2>
-        <ul>
-          {tasks.map((task) => (
-            <div className="flex justify-center m-2 p-2 items-center">
-              <li key={task.id}>{task.taskName}</li>
+      <div className="mt-5 text-center ">
+        <h2 className="text-lg font-bold mb-2">Tasks:</h2>
+        <ol>
+          {tasks.map((task, index) => (
+            <div
+              key={task.id}
+              className="relative flex space-x-3 justify-center m-2 p-2 items-center cursor-grab "
+              draggable
+              onDragStart={() => (itemDrag.current = index)}
+              //onDragEnter={() => (itemDragover.current = index)}
+              onDragEnd={handleSort}
+              onDragOver={() => {
+              
+                itemDragover.current = index; // Update itemDragover.current when dragged over
+              }}
+            >
+              <li className="mr-2"> {index +1}. {task.taskName}</li>
               <button
                 onClick={() => handleEdit(task.id)}
                 className="bg-black text-white p-1 px-2 mx-2  mr-1 rounded"
@@ -99,7 +131,7 @@ const TodoApp = () => {
               </button>
             </div>
           ))}
-        </ul>
+        </ol>
       </div>
     </div>
   );
