@@ -4,6 +4,7 @@ import TodoApp from './Application/TodoApp'
 import SwappingList from './Application/SwappingList'
 import Pagination from './Application/Pagination'
 import ProgressBar from './Application/ProgressBar'
+import Sidebar from './Application/Sidebar'
 
 const App = () => {
 
@@ -13,7 +14,8 @@ return(
     {/* <SwappingList/> */}
     {/* <FecthingUsers/> */}
     {/* <Pagination/> */}
-    <ProgressBar/>
+    {/* <ProgressBar/> */}
+    <Sidebar/>
   </div>
 )
 }
