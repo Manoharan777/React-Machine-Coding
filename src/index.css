@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* body {
+    background-color: #1e1b1b;
+}
+
+.progressbar {
+    position: relative;
+    overflow: hidden;
+    width: 350px;
+    height: 35px;
+    border-radius: 5px;
+    background-color: white;
+    margin-left: 590px;
+    margin-top: 100px;
+}
+
+I .progressPercentage { 
+    font-weight: 600;
+position: absolute;
+left: 50%;
+top: 50%;
+transform: translate (-50%, -50%);
+color: white;
+} */

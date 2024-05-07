@@ -1,23 +1,30 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const TodoApp = () => {
-  const initialState = {
-    id: 1,
-    taskName: "Do walk",
-  };
-
   const [input, setInput] = useState("");
-  const [tasks, setTasks] = useState([initialState]);
+  const [tasks, setTasks] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [editTask, setEditTask] = useState(null);
   const itemDrag = useRef(null);
   const itemDragover = useRef(null);
 
+  useEffect(() => {
+    const storedTasks = JSON.parse(localStorage.getItem("tasks"));
+    if (storedTasks) {
+      setTasks(storedTasks);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
   const handleAddTask = () => {
     if (input.trim() !== "") {
       const newTask = {
-        id: tasks.length + 1,
+        id: tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1,
         taskName: input,
+        checked: false,
       };
       setTasks([...tasks, newTask]);
       setInput("");
@@ -48,18 +55,29 @@ const TodoApp = () => {
     }
   };
 
-  function handlecleartask(){
+  function handlecleartask() {
     setTasks([]);
   }
 
-  function handleSort(){
+  function handleSort() {
     const itemClone = [...tasks];
-  [itemClone[itemDrag.current], itemClone[itemDragover.current]] = [
-    itemClone[itemDragover.current],
-    itemClone[itemDrag.current],
-  ];
+    [itemClone[itemDrag.current], itemClone[itemDragover.current]] = [
+      itemClone[itemDragover.current],
+      itemClone[itemDrag.current],
+    ];
     setTasks(itemClone);
   }
+
+  const handleChecked = (taskId) => {
+    setTasks((prevTasks) => {
+      return prevTasks.map((task) => {
+        if (task.id === taskId) {
+          return { ...task, checked: !task.checked };
+        }
+        return task;
+      });
+    });
+  };
 
   return (
     <div>
@@ -71,7 +89,7 @@ const TodoApp = () => {
         <form onSubmit={(e) => e.preventDefault()}>
           <label className="text-lg font-bold">Add a task : </label>
           <input
-            className="border border-black px-2 m-2 rounded"
+            className="border border-black px-2 m-2 rounded "
             placeholder="Enter a task"
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -112,17 +130,26 @@ const TodoApp = () => {
               //onDragEnter={() => (itemDragover.current = index)}
               onDragEnd={handleSort}
               onDragOver={() => {
-              
                 itemDragover.current = index; // Update itemDragover.current when dragged over
               }}
             >
-              <li className="mr-2"> {index +1}. {task.taskName}</li>
-              <button
-                onClick={() => handleEdit(task.id)}
-                className="bg-black text-white p-1 px-2 mx-2  mr-1 rounded"
-              >
-                Edit
-              </button>
+              <input
+                type="checkbox"
+                checked={task.checked}
+                onChange={() => handleChecked(task.id)}
+                className="bg-black text-xl text-white p-1 px-2 mx-2 rounded"
+              />
+              <li className={task.checked ? "line-through text-gray-500" : ""}>
+                {index + 1}. {task.taskName}
+              </li>
+              {!task.checked && (
+                <button
+                  onClick={() => handleEdit(task.id)}
+                  className="bg-black text-white p-1 px-2 mx-2  mr-1 rounded"
+                >
+                  Edit
+                </button>
+              )}
               <button
                 onClick={() => handleDelete(task.id)}
                 className="bg-black text-white p-1 px-2 mx-2 rounded"
