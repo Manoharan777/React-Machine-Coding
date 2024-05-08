@@ -5,6 +5,7 @@ import SwappingList from './Application/SwappingList'
 import Pagination from './Application/Pagination'
 import ProgressBar from './Application/ProgressBar'
 import Sidebar from './Application/Sidebar'
+import StarRating from './Application/StarRating'
 
 const App = () => {
 
@@ -15,7 +16,8 @@ return(
     {/* <FecthingUsers/> */}
     {/* <Pagination/> */}
     {/* <ProgressBar/> */}
-    <Sidebar/>
+    {/* <Sidebar/> */}
+    <StarRating/>
   </div>
 )
 }

@@ -1,0 +1,12 @@
+.star{
+    font-size: 60px;
+    cursor: pointer;
+}
+.star:hover,
+ .star:has(~ .star:hover){
+    color: gold;
+}
+
+.star.active {
+    color: gold;
+}
