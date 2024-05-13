@@ -6,6 +6,7 @@ import Pagination from './Application/Pagination'
 import ProgressBar from './Application/ProgressBar'
 import Sidebar from './Application/Sidebar'
 import StarRating from './Application/StarRating'
+import BookSearch from './Application/BookSearch'
 
 const App = () => {
 
@@ -18,6 +19,7 @@ return(
     {/* <ProgressBar/> */}
     {/* <Sidebar/> */}
     <StarRating/>
+    {/* <BookSearch /> */}
   </div>
 )
 }
