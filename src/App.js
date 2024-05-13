@@ -18,8 +18,8 @@ return(
     {/* <Pagination/> */}
     {/* <ProgressBar/> */}
     {/* <Sidebar/> */}
-    <StarRating/>
-    {/* <BookSearch /> */}
+    {/* <StarRating/> */}
+    <BookSearch />
   </div>
 )
 }

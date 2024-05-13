@@ -1,5 +1,26 @@
 import React, { useState, useEffect } from "react";
 
+
+const Card = ({ booksdata }) => {
+  if (!booksdata) return;
+  const {volumeInfo } = booksdata;
+  const { imageLinks, title, authors } = volumeInfo;
+  return (
+    <div className="bg-white text-black w-64 m-5 p-4 border hover:border-green-700 shadow-lg rounded-md bg-opacity-60 overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105">
+      <img
+        src={imageLinks?.thumbnail}
+        className="mx-auto items-center rounded"
+        alt="user"
+      />
+      <h1 className="text-lg font-bold p-1 "> {title} </h1>
+      <h4 className="text-sm font-semibold p-1 "> {authors} </h4>
+    </div>
+  );
+};
+
+
+
+
 function BookSearch() {
   const [query, setQuery] = useState("");
   const [books, setBooks] = useState([]);
@@ -45,35 +66,11 @@ function BookSearch() {
           Search
         </button>
       </form>
-      <ul className="flex flex-wrap justify-between">
-        {query &&
-          books.map((book) => (
-            <li key={book.id}>
-              <div>
-                {book.volumeInfo && book.volumeInfo.imageLinks && (
-                  <img
-                    className="mx-auto"
-                    src={book.volumeInfo.imageLinks.thumbnail}
-                    alt={book.volumeInfo.title}
-                  />
-                )}
-              </div>
-              <div>
-                <h2>
-                  {book.volumeInfo
-                    ? book.volumeInfo.title
-                    : "Title not available"}
-                </h2>
-                <p>
-                  Authors:{" "}
-                  {book.volumeInfo && book.volumeInfo.authors
-                    ? book.volumeInfo.authors.join(", ")
-                    : "Author not available"}
-                </p>
-              </div>
-            </li>
-          ))}
-      </ul>
+      <div className="flex flex-wrap  justify-center bg-black mx-2 mb-2 rounded">
+        {books.map((books) => (
+          <Card key={books.id} booksdata={books} />
+        ))}
+      </div>
     </div>
   );
 }
